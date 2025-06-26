@@ -26,9 +26,11 @@ def index():
             amount = 0.0
 
         sheet.append([date, expense_type, description, amount, note])
+        print([date, expense_type, description, amount, note])
 
         # Save to disk instead of returning as a download
         wb.save(template_path)
+        print("Workbook saved!")
         return redirect("/")
 
     return render_template("index.html")
