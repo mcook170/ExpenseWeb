@@ -30,6 +30,7 @@ def index():
 
         # Save to disk instead of returning as a download
         wb.save(template_path)
+        print(f"Saved to: {os.path.abspath(template_path)}")
         print("Workbook saved!")
         return redirect("/")
 
