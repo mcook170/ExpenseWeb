@@ -16,7 +16,7 @@ def index():
         date = datetime.now().strftime("%m/%d/%Y")
 
         # Load styled template
-        template_path = "expenses-template.xlsx"
+        template_path = "expenses - app.xlsx"
         wb = openpyxl.load_workbook(template_path)
         sheet = wb.active
 
