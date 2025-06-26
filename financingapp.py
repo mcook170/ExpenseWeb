@@ -33,8 +33,8 @@ def index():
         print(f"Saved to: {os.path.abspath(template_path)}")
         print("Workbook saved!")
         return redirect("/")
-
-        return render_template("index.html")
     
-    if __name__ == "__main__":
-        app.run(debug=True)
+    return render_template("index.html")
+    
+if __name__ == "__main__":
+    app.run(debug=True)
