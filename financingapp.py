@@ -1,8 +1,7 @@
-from flask import Flask, render_template, request, send_file
+from flask import Flask, render_template, request, redirect
 from datetime import datetime
 import openpyxl
 import os
-import io
 
 app = Flask(__name__)
 
@@ -28,16 +27,8 @@ def index():
 
         sheet.append([date, expense_type, description, amount, note])
 
-        # Save to an in-memory stream
-        file_stream = io.BytesIO()
-        wb.save(file_stream)
-        file_stream.seek(0)
-
-        return send_file(
-            file_stream,
-            as_attachment=True,
-            download_name="my_expenses.xlsx",
-            mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-        )
+        # Save to disk instead of returning as a download
+        wb.save(template_path)
+        return redirect("/")
 
     return render_template("index.html")
