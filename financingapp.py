@@ -18,6 +18,7 @@ def index():
         template_path = "expenses - app.xlsx"
         wb = openpyxl.load_workbook(template_path)
         sheet = wb["Expenses"]
+        print("Using sheet:", sheet.title)
 
         # Append the data
         try:
@@ -25,7 +26,13 @@ def index():
         except (ValueError, TypeError):
             amount = 0.0
 
-        sheet.append([date, expense_type, description, amount, note])
+        # sheet.append([date, expense_type, description, amount, note])
+        next_row = sheet.max_row + 1
+        sheet.cell(row=next_row, column=1).value = date
+        sheet.cell(row=next_row, column=2).value = expense_type
+        sheet.cell(row=next_row, column=3).value = description
+        sheet.cell(row=next_row, column=4).value = amount
+        sheet.cell(row=next_row, column=5).value = note
         print([date, expense_type, description, amount, note])
 
         # Save to disk instead of returning as a download
