@@ -17,7 +17,7 @@ def index():
         # Load styled template
         template_path = "expenses - app.xlsx"
         wb = openpyxl.load_workbook(template_path)
-        sheet = wb.active
+        sheet = wb["Expenses"]
 
         # Append the data
         try:
