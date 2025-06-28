@@ -3,9 +3,11 @@ from datetime import datetime, timedelta
 import openpyxl
 import os
 from dotenv import load_dotenv
+from pathlib import Path
 
-
-load_dotenv()
+# Explicit loading of .env file
+env_path = Path(__file__).parent / "expensive_stuff.env"
+load_dotenv(dotenv_path=env_path)
 
 
 app = Flask(__name__)
@@ -22,7 +24,7 @@ app.secret_key = os.environ.get("TOKEN", "dev-secret")
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
-        if request.form.get("pin", "").strip() == os.environ.get("DIGITS", "1234").strip():
+        if request.form.get("pin", "") == os.environ.get("DIGITS", "1234"):
             session["authenticated"] = True
             session.permanent = True  # activates the timeout
             return redirect(url_for("index"))
