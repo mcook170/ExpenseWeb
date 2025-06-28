@@ -52,3 +52,15 @@ button.exit {
     padding: 10px 20px;
     border-radius: 5px;
 }
+
+.logout-link {
+  display: block;
+  text-align: right;
+  margin-top: 10px;
+  color: #888;
+  text-decoration: none;
+}
+
+.logout-link:hover {
+  color: #555;
+}

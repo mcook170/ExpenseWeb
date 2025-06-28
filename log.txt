@@ -1,5 +1,7 @@
 06/27:
-
 Asked Copilot about security measures I could take on my officially working app, still working on the kinks
 but found a way to add my PIN so that it is protected. See previous Copilot conversation and continue on
 further date.
+
+06/28:
+Found my issue with the .env file (it had no actual name that the )
