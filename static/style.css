@@ -7,6 +7,66 @@ body {
     height: 100vh;
 }
 
+/* Pin Login Form */
+.form {
+  max-width: 400px;
+  margin: 100px auto;
+  padding: 32px;
+  background-color: #fffaf3;
+  border: 1px solid #e0d7c6;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.form-group {
+  margin-bottom: 24px;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #2e2e2e;
+}
+
+.form-input {
+  padding: 12px 16px;
+  border: 1px solid #d8cfc0;
+  border-radius: 8px;
+  font-size: 1rem;
+  background-color: #fdf6e3;
+  color: #2e2e2e;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #d97b66;
+  box-shadow: 0 0 0 3px rgba(217, 123, 102, 0.15);
+}
+
+.form-buttons {
+  display: flex;
+  justify-content: center;
+}
+
+.form-button {
+  background-color: #6b8e23;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.form-button:hover {
+  background-color: #5e7d1f;
+}
+
+/* Expense Form */
 .container {
     background-color: #fdf9f3;
     padding: 30px;
@@ -53,6 +113,7 @@ button.exit {
     border-radius: 5px;
 }
 
+/* Logout Link */
 .logout-link {
   display: block;
   text-align: right;
