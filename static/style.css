@@ -1,35 +1,63 @@
-/* Removed duplicate body styles; merged into html, body selector above */
+/* Base Layout */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: #fdf6e3; /* desert sand */
+  font-family: 'Quicksand', sans-serif;
+  color: #5b4d47; /* earthy brown */
+}
 
-/* Pin Login Form */
+.page-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 40px 20px;
+}
+
+/* Form Container */
 .form {
   max-width: 500px;
   margin: 0 auto;
   padding: 32px;
-  background-color: #fffaf3;
+  background-color: #fffaf3; /* parchment */
   border: 1px solid #e0d7c6;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
+/* Form Fields */
 .form-group {
   margin-bottom: 24px;
   display: flex;
   flex-direction: column;
-
 }
 
 .form-group label {
   font-weight: 600;
   margin-bottom: 8px;
-  color: #2e2e2e;
+  color: #5b4d47;
 }
 
-.form-input {
+.form-input,
+input,
+select {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
   border: 1px solid #d8cfc0;
   border-radius: 8px;
   font-size: 1rem;
   background-color: #fdf6e3;
-  color: #2e2e2e;
+  color: #5b4d47;
 }
 
 .form-input:focus {
@@ -38,13 +66,16 @@
   box-shadow: 0 0 0 3px rgba(217, 123, 102, 0.15);
 }
 
+/* Buttons */
 .form-buttons {
   display: flex;
   justify-content: center;
+  margin-top: 16px;
 }
 
-.form-button {
-  background-color: #d97b66;
+.form-button,
+.logout-button {
+  background-color: #d97b66; /* terracotta */
   color: white;
   border: none;
   padding: 12px 24px;
@@ -56,81 +87,14 @@
   text-decoration: none;
 }
 
-.form-button:hover {
-  background-color: #c86a55;
+.form-button:hover,
+.logout-button:hover {
+  background-color: #c86a55; /* deeper adobe */
 }
 
-/* Expense Form */
-.container {
-    background-color: #fdf9f3;
-    padding: 0px;
-    border-radius: 10px;
-    margin: 25px auto;
-    width: 90%;
-    max-width: 400px;
-    font-size: 18px;
-    color: #5b4d47;
-    margin-top: 10px;
-    display: block;
-    margin-left: 10px;
-    margin-right: 16px;
-}
-
-input, select {
-    width: 100%;
-    padding: 8px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-.buttons {
-    display: flex;
-    justify-content: space-between;
-}
-
-button.add {
-    background-color: #cc7859;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-}
-
-button.exit {
-    background-color: #a84343;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-}
-
-html, body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  background-color: #fdf6e3;
-  font-family: 'Quicksand', sans-serif;
-}
-
-/* Removed duplicate .form definition; merged above */
-
-/* merged html, body selector */
-html, body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  background-color: #fdf6e3;
-  font-family: 'Quicksand', sans-serif;
-}
-
-.main-content {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  padding: 40px 20px;
+/* Footer */
+.footer {
+  padding: 24px;
   background-color: #fffaf3;
   text-align: center;
 }
@@ -142,40 +106,14 @@ html, body {
   align-items: center;
 }
 
-.form-button {
-  background-color: #d97b66;
-  color: white;
-  border: none;
-  padding: 12px 24px;
+/* Flash Message */
+.flash-message {
+  background-color: #fce8d5;
+  color: #5e3b2c;
+  border: 1px solid #e0bfa3;
+  padding: 12px 16px;
   border-radius: 8px;
-  font-weight: 600;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-  text-decoration: none;
-  margin-top: 16px;
-}
-
-.form-button:hover {
-  background-color: #c86a55;
-}
-
-.logout-button {
-  background-color: #d97b66;
-  color: white;
-  border: none;
-  padding: 12px 24px;
-  border-radius: 8px;
-  font-weight: 600;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-  text-decoration: none;
-  margin-left: 10px;
-  margin-right: 90px;
-  margin-top: 40px;
-}
-
-.logout-button:hover {
-  background-color: #c86a55;
+  margin-bottom: 20px;
+  font-weight: 500;
+  text-align: center;
 }
