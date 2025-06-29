@@ -1,27 +1,13 @@
-
-<!-- <head>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<form method="POST" class="form">
-  <div class="form-group">
-    <label for="pin">PIN</label>
-    <input type="password" name="pin" id="pin" class="form-input" required>
-  </div>
-  <div class="form-buttons">
-    <button type="submit" class="form-button">Unlock</button>
-  </div>
-</form> -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Login</title>
+  <title>Register</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
   <div class="form">
-    <h2>Welcome Back</h2>
+    <h2>Create Your Account</h2>
     <form method="POST">
       <div class="form-group">
         <label for="username">Username</label>
@@ -32,11 +18,11 @@
         <input type="password" name="pin" id="pin" class="form-input" required>
       </div>
       <div class="form-buttons">
-        <button type="submit" class="form-button">Log In</button>
+        <button type="submit" class="form-button">Register</button>
       </div>
     </form>
     <p style="text-align: center; margin-top: 16px;">
-      New here? <a href="{{ url_for('register') }}">Create an account</a>
+      Already have an account? <a href="{{ url_for('login') }}">Log in</a>
     </p>
   </div>
 </body>
