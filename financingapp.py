@@ -5,6 +5,9 @@ import os
 from dotenv import load_dotenv
 from pathlib import Path
 
+import sys
+print("Running Python from:", sys.executable)
+
 # Explicit loading of .env file
 env_path = Path(__file__).parent / "expensive_stuff.env"
 load_dotenv(dotenv_path=env_path)

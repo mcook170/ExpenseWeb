@@ -16,22 +16,26 @@ body {
   border: 1px solid #e0d7c6;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  /* align-items: flex-start; */
 }
 
 .form-group {
   margin-bottom: 24px;
   display: flex;
   flex-direction: column;
+
 }
 
 .form-group label {
   font-weight: 600;
   margin-bottom: 8px;
   color: #2e2e2e;
+  /* align-items: flex-start;*/
+
 }
 
 .form-input {
-  padding: 12px 16px;
+  padding: 12px 12px;
   border: 1px solid #d8cfc0;
   border-radius: 8px;
   font-size: 1rem;
@@ -69,11 +73,13 @@ body {
 /* Expense Form */
 .container {
     background-color: #fdf9f3;
-    padding: 30px;
+    padding: 0px;
     border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    /* box-shadow: 0 4px 10px rgba(0,0,0,0.1); */
+    margin: 25px auto;
     width: 90%;
     max-width: 400px;
+
 }
 
 label {
@@ -81,12 +87,14 @@ label {
     color: #5b4d47;
     margin-top: 10px;
     display: block;
+    margin-left: 10px;
+    margin-right: 16px;
 }
 
 input, select {
     width: 100%;
     padding: 8px;
-    margin-top: 4px;
+    margin-top: 10px;
     margin-bottom: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
@@ -114,14 +122,53 @@ button.exit {
 }
 
 /* Logout Link */
-.logout-link {
-  display: block;
-  text-align: right;
-  margin-top: 10px;
-  color: #888;
-  text-decoration: none;
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: #fdf6e3;
+  font-family: 'Quicksand', sans-serif;
 }
 
-.logout-link:hover {
-  color: #555;
+/* .page-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 40px 20px;
+} */
+
+.form {
+  max-width: 500px;
+  margin: 0 auto;
+  background-color: #fffaf3;
+  border: 1px solid #e0d7c6;
+  border-radius: 12px;
+  padding: 32px;
+  /* box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); */
+}
+
+.logout-form {
+  display: flex;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+.logout-button {
+  background-color: #d97b66;
+  color: white;
+  border: none;
+  padding: 10px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  margin-left: 110px;
+  margin-right: 90px;
+  margin-top: 40px;
+}
+
+.logout-button:hover {
+  background-color: #c86a55;
 }
