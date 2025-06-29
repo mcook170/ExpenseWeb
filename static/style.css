@@ -1,22 +1,14 @@
-body {
-    background-color: #e7e1dc;
-    font-family: Arial, sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-}
+/* Removed duplicate body styles; merged into html, body selector above */
 
 /* Pin Login Form */
 .form {
-  max-width: 400px;
-  margin: 100px auto;
+  max-width: 500px;
+  margin: 0 auto;
   padding: 32px;
   background-color: #fffaf3;
   border: 1px solid #e0d7c6;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  /* align-items: flex-start; */
 }
 
 .form-group {
@@ -30,12 +22,9 @@ body {
   font-weight: 600;
   margin-bottom: 8px;
   color: #2e2e2e;
-  /* align-items: flex-start;*/
-
 }
 
 .form-input {
-  padding: 12px 12px;
   border: 1px solid #d8cfc0;
   border-radius: 8px;
   font-size: 1rem;
@@ -55,7 +44,7 @@ body {
 }
 
 .form-button {
-  background-color: #6b8e23;
+  background-color: #d97b66;
   color: white;
   border: none;
   padding: 12px 24px;
@@ -64,10 +53,11 @@ body {
   font-size: 1rem;
   cursor: pointer;
   transition: background-color 0.2s ease;
+  text-decoration: none;
 }
 
 .form-button:hover {
-  background-color: #5e7d1f;
+  background-color: #c86a55;
 }
 
 /* Expense Form */
@@ -75,14 +65,9 @@ body {
     background-color: #fdf9f3;
     padding: 0px;
     border-radius: 10px;
-    /* box-shadow: 0 4px 10px rgba(0,0,0,0.1); */
     margin: 25px auto;
     width: 90%;
     max-width: 400px;
-
-}
-
-label {
     font-size: 18px;
     color: #5b4d47;
     margin-top: 10px;
@@ -121,7 +106,6 @@ button.exit {
     border-radius: 5px;
 }
 
-/* Logout Link */
 html, body {
   height: 100%;
   margin: 0;
@@ -130,40 +114,63 @@ html, body {
   font-family: 'Quicksand', sans-serif;
 }
 
-/* .page-wrapper {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 40px 20px;
-} */
+/* Removed duplicate .form definition; merged above */
 
-.form {
-  max-width: 500px;
-  margin: 0 auto;
-  background-color: #fffaf3;
-  border: 1px solid #e0d7c6;
-  border-radius: 12px;
-  padding: 32px;
-  /* box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); */
+/* merged html, body selector */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: #fdf6e3;
+  font-family: 'Quicksand', sans-serif;
 }
 
-.logout-form {
+.main-content {
+  flex: 1;
   display: flex;
   justify-content: center;
+  align-items: flex-start;
+  padding: 40px 20px;
+  background-color: #fffaf3;
+  text-align: center;
+}
+
+.footer-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+}
+
+.form-button {
+  background-color: #d97b66;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  text-decoration: none;
   margin-top: 16px;
+}
+
+.form-button:hover {
+  background-color: #c86a55;
 }
 
 .logout-button {
   background-color: #d97b66;
   color: white;
   border: none;
-  padding: 10px 24px;
+  padding: 12px 24px;
   border-radius: 8px;
   font-weight: 600;
   font-size: 1rem;
   cursor: pointer;
   transition: background-color 0.2s ease;
+  text-decoration: none;
   margin-left: 110px;
   margin-right: 90px;
   margin-top: 40px;

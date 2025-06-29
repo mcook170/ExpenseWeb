@@ -78,6 +78,7 @@ def index():
         sheet.title = "Expenses"
         sheet.append(["Date", "Type", "Description", "Amount", "Note"])
         wb.save(filepath)
+        
 
     if request.method == "POST":
         description = request.form.get("description")

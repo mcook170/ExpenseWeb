@@ -10,7 +10,7 @@
     <main class="main-content">
       <div class="form">
         <h2>Hello, {{ username }} 👋</h2>
-        <form method="POST">
+        <form action="{{ url_for('add_expense') }}" method="POST">
           <div class="form-group">
             <label for="description">Description</label>
             <input type="text" name="description" id="description" class="form-input" required>
@@ -42,16 +42,16 @@
           </div>
         </form>
         <div class="form-buttons" style="margin-top: 16px;">
-  <a href="{{ url_for('download') }}" class="form-button" style="text-decoration: none; display: inline-block;">
-    Download My Spreadsheet
-  </a>
-</div>
+          <a href="{{ url_for('download') }}" class="form-button" style="text-decoration: none; display: inline-block;">
+            Download My Spreadsheet
+          </a>
+        </div>
       </div>
-    </main>
-
+              <option value="Entertainment">Entertainment</option>
+              <option value="Utilities">Utilities</option>
     <footer class="footer">
       <form action="{{ url_for('logout') }}" method="POST">
-        <button type="submit" class="logout-button">Log Out</button>
+        <button type="submit" class="form-button">Logout</button>
       </form>
     </footer>
   </div>
