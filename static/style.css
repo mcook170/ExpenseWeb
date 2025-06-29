@@ -171,7 +171,7 @@ html, body {
   cursor: pointer;
   transition: background-color 0.2s ease;
   text-decoration: none;
-  margin-left: 110px;
+  margin-left: 10px;
   margin-right: 90px;
   margin-top: 40px;
 }
