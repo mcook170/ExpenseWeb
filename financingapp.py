@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, flash, session, url_for
+from flask import Flask, render_template, request, redirect, flash, session, url_for, send_file
 from datetime import datetime, timedelta
 import openpyxl
 import os
@@ -99,6 +99,22 @@ def index():
         return redirect(url_for("index"))
 
     return render_template("index.html", username=username)
+
+# 📊 Download Route
+@app.route("/download")
+def download():
+    if "user_id" not in session:
+        return redirect(url_for("login"))
+
+    username = session["username"]
+    filename = f"{username}_expenses.xlsx"
+    filepath = os.path.join(app.root_path, filename)
+
+    if not os.path.exists(filepath):
+        flash("No spreadsheet found.")
+        return redirect(url_for("index"))
+
+    return send_file(filepath, as_attachment=True)
 
 # 🚪 Logout
 @app.route("/logout")
