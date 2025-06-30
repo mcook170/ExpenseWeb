@@ -117,3 +117,29 @@ select {
   font-weight: 500;
   text-align: center;
 }
+.expense-table {
+  margin-top: 40px;
+  overflow-x: auto;
+}
+
+.expense-table table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #fffaf3;
+  border: 1px solid #e0d7c6;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.expense-table th,
+.expense-table td {
+  padding: 12px;
+  border-bottom: 1px solid #e0d7c6;
+  text-align: left;
+  color: #5b4d47;
+}
+
+.expense-table th {
+  background-color: #fce8d5;
+  font-weight: 600;
+}

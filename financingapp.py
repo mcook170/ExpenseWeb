@@ -99,23 +99,32 @@ def index():
 
         return redirect(url_for("index"))
 
-    return render_template("index.html", username=username)
+    # Read expenses from file
+    wb = openpyxl.load_workbook(filepath)
+    sheet = wb["Expenses"]
+    expenses = list(sheet.iter_rows(min_row=2, values_only=True))  # skip header
+
+    return render_template("index.html", username=username, expenses=expenses)
+    
 
 # 📊 Download Route
-@app.route("/download")
-def download():
-    if "user_id" not in session:
-        return redirect(url_for("login"))
+#@app.route("/download")
+#def download():
+#    if "user_id" not in session:
+#        return redirect(url_for("login"))
 
-    username = session["username"]
-    filename = f"{username}_expenses.xlsx"
-    filepath = os.path.join(app.root_path, filename)
+#    username = session["username"]
+ #   filename = f"{username}_expenses.xlsx"
+  #  filepath = os.path.join(app.root_path, filename)
+#
+ #   if not os.path.exists(filepath):
+  #      flash("No spreadsheet found.")
+   #     return redirect(url_for("index"))
 
-    if not os.path.exists(filepath):
-        flash("No spreadsheet found.")
-        return redirect(url_for("index"))
+  #  return send_file(filepath, as_attachment=True)
 
-    return send_file(filepath, as_attachment=True)
+
+
 
 # 🚪 Logout
 @app.route("/logout")

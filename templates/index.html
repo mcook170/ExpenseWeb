@@ -50,12 +50,38 @@
             <button type="submit" class="form-button">Add Expense</button>
           </div>
         </form>
+        {% if expenses %}
+  <div class="expense-table">
+    <h3 style="margin-top: 40px;">Recent Expenses</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Amount</th>
+          <th>Note</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in expenses %}
+          <tr>
+            <td>{{ row[0] }}</td>
+            <td>{{ row[1] }}</td>
+            <td>{{ row[2] }}</td>
+            <td>${{ "%.2f"|format(row[3]) }}</td>
+            <td>{{ row[4] }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endif %}
       </div>
     </main>
 
     <footer class="footer">
       <div class="footer-buttons">
-        <a href="{{ url_for('download') }}" class="form-button">📄 Download My Spreadsheet</a>
         <form action="{{ url_for('logout') }}" method="GET" style="display: inline;">
           <button type="submit" class="logout-button">Log Out</button>
         </form>
