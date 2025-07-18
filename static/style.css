@@ -3,9 +3,12 @@ html, body {
   height: 100%;
   margin: 0;
   padding: 0;
-  background-color: #fdf6e3; /* desert sand */
   font-family: 'Quicksand', sans-serif;
-  color: #5b4d47; /* earthy brown */
+  background-image: url("/static/desert-theme.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-attachment: fixed;
 }
 
 .page-wrapper {
@@ -73,29 +76,10 @@ select {
   margin-top: 16px;
 }
 
-.form-button,
-.logout-button {
-  background-color: #d97b66; /* terracotta */
-  color: white;
-  border: none;
-  padding: 12px 24px;
-  border-radius: 8px;
-  font-weight: 600;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-  text-decoration: none;
-}
-
-.form-button:hover,
-.logout-button:hover {
-  background-color: #c86a55; /* deeper adobe */
-}
-
 /* Footer */
 .footer {
   padding: 24px;
-  background-color: #fffaf3;
+  background-color: #fdf6e3; /* desert sand */
   text-align: center;
 }
 
@@ -142,4 +126,76 @@ select {
 .expense-table th {
   background-color: #fce8d5;
   font-weight: 600;
+}
+.form-button {
+  background-color: #d97b66; /* terracotta */
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  text-decoration: none;
+  margin-bottom: 12px;
+}
+
+.form-button:hover  {
+  background-color: #c86a55; /* deeper adobe */
+}
+.form-button {
+  display: inline-block;
+  margin-top: 20px;
+  text-align: center;
+  width: calc(100% - 40px);
+  padding: 12px;
+  background-color: #d97b66; /* terracotta */
+  color: white;
+  inline-size: 250px;
+  align-self: center;
+}
+.settings-wrapper {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 100;
+}
+
+#settings-toggle {
+    background: none;
+    border: none;
+    font-size: 1.5em;
+    cursor: pointer;
+}
+
+.dropdown {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    position: absolute;
+    right: 0;
+    top: 40px;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    width: 200px;
+    border-radius: 6px;
+}
+
+.dropdown.hidden {
+    display: none;
+}
+
+.dropdown a,
+.dropdown button {
+    text-decoration: none;
+    color: #5b4d47;
+    margin: 6px 0;
+    text-align: left;
+    background: none;
+    border: none;
+    padding: 6px;
+    font-size: 0.95em;
+    cursor: pointer;
 }

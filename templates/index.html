@@ -6,6 +6,7 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
+  <!-- Main Content -->
   <div class="page-wrapper">
     <main class="main-content">
       <div class="form">
@@ -21,6 +22,7 @@
           {% endif %}
         {% endwith %}
 
+        <!-- Form -->
         <form method="POST">
           <div class="form-group">
             <label for="description">Description</label>
@@ -30,8 +32,11 @@
           <div class="form-group">
             <label for="expense_type">Type</label>
             <select name="expense_type" id="expense_type" class="form-input" required>
-              <option value="Food">Food</option>
-              <option value="Transport">Transport</option>
+              <option value="Food/Drink">Food/Drink</option>
+              <option value="Health">Health</option>
+              <option value="Entertainment">Entertainment</option>
+              <option value="Shopping">Shopping</option>
+              <option value="Deposit">Deposit</option>
               <option value="Other">Other</option>
             </select>
           </div>
@@ -51,6 +56,8 @@
           </div>
         </form>
         {% if expenses %}
+
+  <!-- Expense Table -->
   <div class="expense-table">
     <h3 style="margin-top: 40px;">Recent Expenses</h3>
     <table>
@@ -75,18 +82,74 @@
         {% endfor %}
       </tbody>
     </table>
+    <h3>Transaction Overview</h3>
+    <canvas id="transactionChart" width="400" height="200"></canvas>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script>
+        const ctx = document.getElementById('transactionChart').getContext('2d');
+        const transactionChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: { chart_data : "dates"|tojson | safe },
+                datasets: [
+                    {
+                        label: 'Deposits',
+                        data: { chart_data : "deposits"|tojson | safe },
+                        backgroundColor: 'rgba(75, 192, 192, 0.6)'
+                    },
+                    {
+                        label: 'Expenses',
+                        data: { chart_data : "expenses"|tojson | safe },
+                        backgroundColor: 'rgba(255, 99, 132, 0.6)'
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Transaction Overview'
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
   </div>
 {% endif %}
       </div>
     </main>
-
-    <footer class="footer">
-      <div class="footer-buttons">
-        <form action="{{ url_for('logout') }}" method="GET" style="display: inline;">
-          <button type="submit" class="logout-button">Log Out</button>
-        </form>
-      </div>
-    </footer>
   </div>
-</body>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const toggle = document.getElementById("settings-toggle");
+        const dropdown = document.getElementById("settings-dropdown");
+        toggle.addEventListener("click", () => {
+          dropdown.classList.toggle("hidden");
+        });
+      });
+    </script>
+  
+    <!-- Settings -->
+    <div class="settings-wrapper">
+      <button id="settings-toggle">🌞</button>
+      <div id="settings-dropdown" class="dropdown">
+          <a href="{{ url_for('download') }}">🌵 Download Workbook</a>
+          <form action="{{ url_for('refresh_workbook') }}" method="POST">
+              <button type="submit">🏜️ Refresh Template</button>
+          </form>
+          <form action="{{ url_for('delete_account') }}" method="POST">
+              <button type="submit" onclick="return confirm('Delete your account and workbook?')">🐫 Delete Account</button>
+          </form>
+          <a href="{{ url_for('logout') }}">🚪 Logout</a>
+      </div>
+    </div>
+
+  </body>
 </html>
