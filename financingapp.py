@@ -4,8 +4,9 @@ import openpyxl
 import os 
 from dotenv import load_dotenv 
 from pathlib import Path 
-from models import db, User  # ← import User model
+from models import db, User, Expense  # ← import User model
 import shutil
+import pandas as pd
 
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -21,6 +22,14 @@ db.init_app(app)
 
 with app.app_context(): 
     db.create_all()
+
+# Defines to_dict() function for showing recent expenses
+def to_dict(self):
+    return {
+        "date": str(self.date),  # if date is a datetime object
+        "category": self.category,
+        "amount": float(self.amount)  # make sure this is a float
+    }
 
 # 🧾 Registration Route
 @app.route("/register", methods=["GET", "POST"]) 
@@ -40,12 +49,13 @@ def register():
 
         template_path = os.path.join(app.root_path, "expenses-template.xlsx")
         user_file = os.path.join(app.root_path, f"{username}_expenses.xlsx")
-        if not os.path.exists(user_file):
-            shutil.copy(template_path, user_file)
 
         if not os.path.exists(template_path):
             flash("Template file is missing. Please contact support.")
             return redirect(url_for("register"))
+        if not os.path.exists(user_file):
+            shutil.copy(template_path, user_file)
+
 
         return redirect(url_for("login"))
 
@@ -84,12 +94,10 @@ def index():
         return redirect(url_for("login"))
         
     username = session["username"]
-    user_id = session["user_id"]
     filename = f"{username}_expenses.xlsx"
-    # filepath = os.path.join(app.root_path, filename) 
     filepath = get_user_filepath(username)
 
-# Handle form submission
+    # Handle form submission
     if request.method == "POST":
         description = request.form.get("description")
         expense_type = request.form.get("expense_type")
@@ -100,30 +108,87 @@ def index():
         try:
             amount = float(amount)
         except (ValueError, TypeError):
-            amount = 0.0
+            amount = 0.00
 
-        wb = openpyxl.load_workbook(filepath)
-        sheet = wb["Expenses"]
-        sheet.append([date, expense_type, description, amount, note])
-        wb.save(filepath)
+        new_expense = Expense(
+            user_id=session["user_id"],
+            expense_type=expense_type,
+            description=description,
+            amount=amount,
+            note=note
+        )
+
+        db.session.add(new_expense)
+        db.session.commit()
 
         return redirect(url_for("index"))
-    return render_template("index.html", username=username, filename=filename)
+
+    if request.method=="GET":
+        expenses = (
+            Expense.query
+            .filter_by(user_id=session["user_id"])
+            .order_by(Expense.date.desc())
+            .limit(10)
+            .all()
+        )
+            
+        return render_template("index.html", username=username, entries=expenses)
+
+# Sheet View (All Expenses)
+@app.route("/all_expenses")
+def all_expenses():
+    if "user_id" not in session:
+        flash("Session expired. Please log in.")
+        return redirect(url_for("login"))
+    
+    page = request.args.get("page", 1, type=int)
+    expenses = (
+        Expense.query
+        .filter_by(user_id=session["user_id"])
+        .order_by(Expense.date.desc())
+        .paginate(page=page, per_page=20)
+    )
+
+
+    return render_template("all_expenses.html", username=session["username"], entries=expenses)
+
 
 #📊 Download Route
-@app.route("/download") 
-def download(): 
-    username = session["username"]
-    if "user_id" not in session or "username" not in session:
+@app.route("/download")
+def download():
+    if "user_id" not in session:
         flash("Session expired. Please log in.")
         return redirect(url_for("login"))
 
-    filepath = get_user_filepath(session["username"])
+    username = session["username"]
 
-    if not os.path.exists(filepath):
-        flash("No spreadsheet found. Please re-register or contact support.")
-        return redirect(url_for("index"))
+    # 1. Query from DB
+    expenses = (
+        Expense.query
+        .filter_by(user_id=session["user_id"])
+        .order_by(Expense.date.asc())
+        .all()
+    )
 
+    # 2. Load template (with formulas in Summary sheet)
+    template_path = os.path.join(app.root_path, "expenses-template.xlsx")
+    wb = openpyxl.load_workbook(template_path)
+    sheet = wb["Expenses"]
+
+    # 3. Fill the Expenses sheet (starting at row 5)
+    start_row = 5
+    for i, expense in enumerate(expenses, start=start_row):
+        sheet.cell(row=i, column=1, value=expense.date.strftime("%m/%d/%Y"))
+        sheet.cell(row=i, column=2, value=expense.expense_type)
+        sheet.cell(row=i, column=3, value=expense.description)
+        sheet.cell(row=i, column=4, value=expense.amount)
+        sheet.cell(row=i, column=5, value=expense.note)
+
+    # 4. Save to temp file
+    filepath = os.path.join(app.root_path, f"{username}_expenses.xlsx")
+    wb.save(filepath)
+
+    # 5. Send file back to user
     return send_file(filepath, as_attachment=True, download_name=f"{username}_expenses.xlsx")
 
 # 🗑️ Delete Account Route

@@ -1,0 +1,52 @@
+{% extends "index.html" %}
+
+{% block content %}
+  <h2>All Expenses for {{ username }}</h2>
+
+  <!-- ✅ Filter Form -->
+  <form method="GET" action="/all_expenses" class="form">
+    <label for="start_date">From:</label>
+    <input type="date" name="start_date" value="{{ start_date or '' }}">
+
+    <label for="end_date">To:</label>
+    <input type="date" name="end_date" value="{{ end_date or '' }}">
+
+    <label for="category">Category:</label>
+    <select name="category">
+      <option value="">All</option>
+      <option value="Food/Drink" {% if category == "Food/Drink" %}selected{% endif %}>Food</option>
+      <option value="Shopping" {% if category == "Shopping" %}selected{% endif %}>Shopping</option>
+      <option value="Entertainment" {% if category == "Entertainment" %}selected{% endif %}>Entetainment</option>
+      <option value="Deposit" {% if category == "Deposit" %}selected{% endif %}>Deposit</option>
+      <option value="Other" {% if category == "Other"%}selected{% endif %}>Other</option>
+    </select>
+
+    <button type="submit" class="form-button">Filter</button>
+  </form>
+
+  <!-- ✅ Expenses Table -->
+  <div class="expense-table">
+    <table>
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Category</th>
+          <th>Description</th>
+          <th>Amount</th>
+          <th>Note</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for entry in entries %}
+        <tr>
+          <td>{{ entry.date.strftime("%m/%d/%Y") }}</td>
+          <td>{{ entry.expense_type }}</td>
+          <td>{{ entry.description }}</td>
+          <td>{{ "%.2f"|format(entry.amount) }}</td>
+          <td>{{ entry.note }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}

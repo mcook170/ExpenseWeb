@@ -18,7 +18,7 @@ html, body {
 }
 
 .main-content {
-  flex: 1;
+  flex: 2;
   display: flex;
   justify-content: center;
   align-items: flex-start;
@@ -27,7 +27,7 @@ html, body {
 
 /* Form Container */
 .form {
-  max-width: 500px;
+  max-width: 1000px;
   margin: 0 auto;
   padding: 32px;
   background-color: #fffaf3; /* parchment */
@@ -101,6 +101,7 @@ select {
   font-weight: 500;
   text-align: center;
 }
+
 .expense-table {
   margin-top: 40px;
   overflow-x: auto;
@@ -127,6 +128,7 @@ select {
   background-color: #fce8d5;
   font-weight: 600;
 }
+
 .form-button {
   background-color: #d97b66; /* terracotta */
   color: white;
@@ -141,9 +143,6 @@ select {
   margin-bottom: 12px;
 }
 
-.form-button:hover  {
-  background-color: #c86a55; /* deeper adobe */
-}
 .form-button {
   display: inline-block;
   margin-top: 20px;
@@ -176,15 +175,15 @@ select {
     position: absolute;
     right: 0;
     top: 40px;
-    display: flex;
+    display: none;
     flex-direction: column;
     padding: 10px;
     width: 200px;
     border-radius: 6px;
 }
 
-.dropdown.hidden {
-    display: none;
+.dropdown.show {
+    display: flex;
 }
 
 .dropdown a,
@@ -199,3 +198,4 @@ select {
     font-size: 0.95em;
     cursor: pointer;
 }
+

@@ -55,75 +55,32 @@
             <button type="submit" class="form-button">Add Expense</button>
           </div>
         </form>
-        {% if expenses %}
-
-  <!-- Expense Table -->
-  <div class="expense-table">
-    <h3 style="margin-top: 40px;">Recent Expenses</h3>
+<div class="expense-table">
+  {% if entries %}
+    <!-- Expense Table -->
     <table>
-      <thead>
-        <tr>
-          <th>Date</th>
-          <th>Type</th>
-          <th>Description</th>
-          <th>Amount</th>
-          <th>Note</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for row in expenses %}
+      <tr>
+        <th>Date</th><th>Type</th><th>Description</th><th>Amount</th><th>Note</th>
+      </tr>
+        <tbody>
+          {% for entry in entries %}
           <tr>
-            <td>{{ row[0] }}</td>
-            <td>{{ row[1] }}</td>
-            <td>{{ row[2] }}</td>
-            <td>${{ "%.2f"|format(row[3]) }}</td>
-            <td>{{ row[4] }}</td>
+            <td>{{ entry.date.strftime("%m/%d/%Y") }}</td>
+            <td>{{ entry.expense_type }}</td>
+            <td>{{ entry.description }}</td>
+            <td>{{ "%.2f" | format(entry.amount) }}</td>
+            <td>{{ entry.note }}</td>
           </tr>
-        {% endfor %}
+          {% endfor %}
       </tbody>
     </table>
-    <h3>Transaction Overview</h3>
-    <canvas id="transactionChart" width="400" height="200"></canvas>
+  {% else %}
+    <p>No expenses recorded yet. Add one to get started!</p>
+  {% endif %}
+</div>
 
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-    <script>
-        const ctx = document.getElementById('transactionChart').getContext('2d');
-        const transactionChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: { chart_data : "dates"|tojson | safe },
-                datasets: [
-                    {
-                        label: 'Deposits',
-                        data: { chart_data : "deposits"|tojson | safe },
-                        backgroundColor: 'rgba(75, 192, 192, 0.6)'
-                    },
-                    {
-                        label: 'Expenses',
-                        data: { chart_data : "expenses"|tojson | safe },
-                        backgroundColor: 'rgba(255, 99, 132, 0.6)'
-                    }
-                ]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    title: {
-                        display: true,
-                        text: 'Transaction Overview'
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
-        });
-    </script>
-  </div>
-{% endif %}
-      </div>
+<!-- Menu Dropdown -->
+</div>
     </main>
   </div>
     <script>
@@ -139,17 +96,32 @@
     <!-- Settings -->
     <div class="settings-wrapper">
       <button id="settings-toggle">🌞</button>
-      <div id="settings-dropdown" class="dropdown">
+      <div class="dropdown hidden" id="dropdown-menu">
           <a href="{{ url_for('download') }}">🌵 Download Workbook</a>
           <form action="{{ url_for('refresh_workbook') }}" method="POST">
               <button type="submit">🏜️ Refresh Template</button>
           </form>
+          <a href="{{ url_for('all_expenses')}}">🌊 View All Expenses (Web)</a>
           <form action="{{ url_for('delete_account') }}" method="POST">
               <button type="submit" onclick="return confirm('Delete your account and workbook?')">🐫 Delete Account</button>
           </form>
           <a href="{{ url_for('logout') }}">🚪 Logout</a>
       </div>
     </div>
-
   </body>
+      <script>
+        const toggleBtn = document.getElementById("settings-toggle");
+        const dropdown = document.getElementById("dropdown-menu");
+
+        toggleBtn.addEventListener("click", () => {
+          dropdown.classList.toggle("show"); // toggles visibility
+        });
+
+        // Optional: close dropdown if clicking outside
+        document.addEventListener("click", (e) => {
+          if (!dropdown.contains(e.target) && !toggleBtn.contains(e.target)) {
+            dropdown.classList.remove("show");
+          }
+        });
+      </script>
 </html>
