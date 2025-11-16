@@ -1,17 +1,3 @@
-
-<!-- <head>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<form method="POST" class="form">
-  <div class="form-group">
-    <label for="pin">PIN</label>
-    <input type="password" name="pin" id="pin" class="form-input" required>
-  </div>
-  <div class="form-buttons">
-    <button type="submit" class="form-button">Unlock</button>
-  </div>
-</form> -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,7 +5,7 @@
   <title>Login</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-<body>
+<body class="{{ theme }}">
   <div class="form">
     <h2>Welcome Back</h2>
         {% with messages = get_flashed_messages() %}

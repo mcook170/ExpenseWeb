@@ -6,7 +6,7 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 
-<body>
+<body class="{{ theme }}">
   <!-- Main Content -->
   <div class="page-wrapper">
     <main class="main-content">
@@ -106,6 +106,14 @@
           <form action="{{ url_for('delete_account') }}" method="POST">
               <button type="submit" onclick="return confirm('Delete your account and workbook?')">🐫 Delete Account</button>
           </form>
+          <div class="theme-menu">
+            <span class="menu-title">Set Theme ▸</span>
+             <div class="theme-options">
+                <a href="{{ url_for('set_theme', theme='desert-theme') }}">Desert</a>
+                <a href="{{ url_for('set_theme', theme='dark-theme') }}">Dark</a>
+                <a href="{{ url_for('set_theme', theme='forest-theme') }}">Forest</a>
+             </div>
+          </div>
           <a href="{{ url_for('logout') }}">🚪 Logout</a>
       </div>
     </div>

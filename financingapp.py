@@ -59,7 +59,7 @@ def register():
 
         return redirect(url_for("login"))
 
-    return render_template("register.html")
+    return render_template("register.html", theme=session.get("theme","desert-theme"))
 
 def get_user_filepath(username):
     if "username" not in session:
@@ -85,7 +85,7 @@ def login():
         flash("Invalid username or PIN.")
         return redirect(url_for("login"))
 
-    return render_template("login.html")
+    return render_template("login.html", theme=session.get("theme","desert-theme"))
 
 # 🧾 Tracker Route
 @app.route("/", methods=["GET", "POST"]) 
@@ -132,7 +132,7 @@ def index():
             .all()
         )
             
-        return render_template("index.html", username=username, entries=expenses)
+        return render_template("index.html", username=username, entries=expenses, theme=session.get("theme","desert-theme"))
 
 # Sheet View (All Expenses)
 @app.route("/all_expenses")
@@ -226,6 +226,15 @@ def refresh_workbook():
         flash("Template file is missing. Please contact support.")
 
     return redirect(url_for("index"))
+
+# 🎨 Theme Route
+@app.route("/set_theme/<theme>")
+def set_theme(theme):
+    # Save the selected theme in session
+    session["theme"] = theme
+
+    # Redirect back to the previous page if possible, otherwise home
+    return redirect(request.referrer or url_for("index"))
 
 #🚪 Logout
 @app.route("/logout") 

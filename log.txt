@@ -4,4 +4,7 @@ but found a way to add my PIN so that it is protected. See previous Copilot conv
 further date.
 
 06/28:
-Found my issue with the .env file (it had no actual name that the )
+Found my issue with the .env file (it had no actual name)
+
+09/12:
+Change theme, make an option to change theme

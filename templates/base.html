@@ -5,7 +5,7 @@
   <title>{% block title %}Expense Tracker{% endblock %}</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-<body>
+<body class="{{ theme }}">
   <div class="page-wrapper">
 
     <!-- ⚙️ Settings Menu (top-right) -->
@@ -24,4 +24,4 @@
       {% block content %}{% endblock %}
     </main>
 
-    <footer class="foote
+    <footer class="footer"></footer>
