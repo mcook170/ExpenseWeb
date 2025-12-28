@@ -134,6 +134,77 @@ def index():
             
         return render_template("index.html", username=username, entries=expenses, theme=session.get("theme","desert-theme"))
 
+# --- route to receive theme change / uploads ---
+@app.route('/set_wallpaper', methods=['POST'])
+def set_wallpaper():
+    user = get_current_user()
+    if not user:
+        flash("You must be logged in to change wallpaper", "error")
+        return redirect(url_for('index'))
+
+    action_type = request.form.get('type')
+    # 1) built-in theme selection
+    if action_type == 'theme':
+        theme_name = request.form.get('theme_name')
+        # store theme class separately (so fonts/colors remain controlled)
+        # optionally: user.theme_name column; if not present, set user.theme = theme_name
+        user.theme_name = theme_name  # create this column if you don't have it
+        # if user had a custom wallpaper file, leave it (or clear it depending on desired behavior)
+        db.session.commit()
+        flash("Theme changed", "success")
+        return redirect(url_for('index'))
+    
+    # 2) reset to defaults
+    if action_type == 'reset':
+        # clear custom wallpaper and reset theme to desert
+        user.theme_name = 'desert-theme'
+        # if you stored path in user.wallpaper_path, clear it
+        if hasattr(user, 'wallpaper_path'):
+            user.wallpaper_path = None
+        db.session.commit()
+        flash("Reset to default wallpaper", "success")
+        return redirect(url_for('index'))
+
+    # 3) upload a new custom wallpaper
+    if action_type == 'upload':
+        if 'wallpaper_file' not in request.files:
+            flash('No file part', 'error')
+            return redirect(url_for('index'))
+        file = request.files['wallpaper_file']
+        if file.filename == '':
+            flash('No selected file', 'error')
+            return redirect(url_for('index'))
+        if file and allowed_file(file.filename):
+            # optional: enforce size (simple check)
+            file.seek(0, os.SEEK_END)
+            filesize = file.tell()
+            file.seek(0)
+            if filesize > MAX_UPLOAD_SIZE:
+                flash("File too large (max 4MB)", "error")
+                return redirect(url_for('index'))
+
+            filename = secure_filename(file.filename)
+            # create per-user upload folder inside static/uploads/<username>/
+            upload_folder = os.path.join(current_app.static_folder, 'uploads', user.username)
+            Path(upload_folder).mkdir(parents=True, exist_ok=True)
+            save_path = os.path.join(upload_folder, filename)
+            file.save(save_path)
+
+            # store relative path to the static folder (so url_for('static', filename=...) works)
+            rel_path = os.path.join('uploads', user.username, filename)
+            user.wallpaper_path = rel_path  # create this column if you don't have it
+            db.session.commit()
+
+            flash("Wallpaper uploaded", "success")
+            return redirect(url_for('index'))
+        else:
+            flash("Invalid file type. Allowed: png, jpg, jpeg", "error")
+            return redirect(url_for('index'))
+
+    # fallback
+    flash("Unknown action", "error")
+    return redirect(url_for('index'))
+
 # Sheet View (All Expenses)
 @app.route("/all_expenses")
 def all_expenses():

@@ -1,15 +1,25 @@
+/* DESERT THEME */
 body.desert-theme {  
-  /* Base Layout - Desert theme */
     height: 100%;
     margin: 0;
     padding: 0;
-    font-family: 'Quicksand', sans-serif;
-    background-image: url("/static/desert-theme.jpg");
+    font-family: 'Poppins', sans-serif;
+    background-image: var(--bg-image, url("/static/smooth-beige-background.jpg"));
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
     background-attachment: fixed;
 }
+
+body::before{
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: rgba(255,245,230,0.30); /* tweak opacity as needed */
+  z-index: -1;
+  pointer-events: none;
+}
+
   body.desert-theme.page-wrapper {
     display: flex;
     flex-direction: column;
@@ -26,7 +36,7 @@ body.desert-theme {
 
   /* Form Container */
   body.desert-theme.form {
-    max-width: 1000px;
+    max-width: 500px;
     margin: 0 auto;
     padding: 32px;
     background-color: #fffaf3; /* parchment */
@@ -51,8 +61,9 @@ body.desert-theme {
   body.desert-theme.form-input,
   input,
   select {
-    width: 100%;
     padding: 10px;
+    margin-left: 50px;
+    margin-right: 50px;
     margin-top: 10px;
     margin-bottom: 10px;
     border: 1px solid #d8cfc0;
@@ -107,7 +118,6 @@ body.desert-theme {
   }
 
   body.desert-theme.expense-table table {
-    width: 100%;
     border-collapse: collapse;
     background-color: #fffaf3;
     border: 1px solid #e0d7c6;
@@ -146,18 +156,18 @@ body.desert-theme {
     display: inline-block;
     margin-top: 20px;
     text-align: center;
-    width: calc(100% - 40px);
     padding: 12px;
     background-color: #d97b66; /* terracotta */
     color: white;
-    inline-size: 250px;
     align-self: center;
   }
+  
   body.desert-theme.settings-wrapper {
-      position: absolute;
+      position: fixed;
       top: 20px;
       right: 20px;
       z-index: 100;
+      display: inline-block;
   }
 
   body.desert-theme #settings-toggle {
@@ -165,6 +175,7 @@ body.desert-theme {
       border: none;
       font-size: 1.5em;
       cursor: pointer;
+      display: inline-flex;
   }
 
   body.desert-theme.dropdown {
@@ -218,12 +229,13 @@ body.desert-theme.theme-menu:hover .theme-options {
   display: flex;
 }
 
+/* DARK THEME */
 body.dark-theme {
     height: 100%;
     margin: 0;
     padding: 0;
     font-family: 'Montserrat', 'Segoe UI', 'Arial', sans-serif;
-    background-image: url("/static/motherboard-app-bkg.jpg");
+    background-image: var(--bg-image, url("/static/motherboard-app-bkg.jpg"));
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
@@ -244,18 +256,16 @@ body.dark-theme {
     padding: 40px 20px;
   }
 
-  /* Form Container */
   body.dark-theme.form {
     max-width: 1000px;
     margin: 0 auto;
     padding: 32px;
-    background-color: #ffff; /* parchment */
+    background-color: #ffff;
     border: 1px solid #000000;
     border-radius: 12px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   }
 
-  /* Form Fields */
   body.dark-theme.form-group {
     margin-bottom: 24px;
     display: flex;
@@ -288,17 +298,15 @@ body.dark-theme {
     box-shadow: 0 0 0 3px rgba(217, 123, 102, 0.15);
   }
 
-  /* Buttons */
   body.dark-theme.form-buttons {
     display: flex;
     justify-content: center;
     margin-top: 16px;
   }
 
-  /* Footer */
   body.dark-theme.footer {
     padding: 24px;
-    background-color: #fdf6e3; /* desert sand */
+    background-color: #fdf6e3;
     text-align: center;
   }
 
@@ -309,7 +317,6 @@ body.dark-theme {
     align-items: center;
   }
 
-  /* Flash Message */
   body.dark-theme.flash-message {
     background-color: #ffffff;
     color: #fff;
@@ -349,7 +356,7 @@ body.dark-theme {
   }
 
   body.dark-theme.form-button {
-    background-color: #ffffff; /* terracotta */
+    background-color: #ffffff;
     color: white;
     border: none;
     padding: 12px 24px;
@@ -368,7 +375,7 @@ body.dark-theme {
     text-align: center;
     width: calc(100% - 40px);
     padding: 12px;
-    background-color: #ffffff; /* terracotta */
+    background-color: #ffffff;
     color: white;
     inline-size: 250px;
     align-self: center;
@@ -437,5 +444,3 @@ body.dark-theme {
   body.dark-theme.theme-menu:hover .theme-options {
     display: flex;
   }
-
-

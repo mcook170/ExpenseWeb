@@ -5,17 +5,45 @@
   <title>{% block title %}Expense Tracker{% endblock %}</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-<body class="{{ theme }}">
+<body 
+  class="{{ theme_class or 'desert-theme' }}"
+  {% if bg_override_url %}
+    style="--bg-image: url('{{bg_override_url}}')"
+  {% endif %}
+>
   <div class="page-wrapper">
 
     <!-- ⚙️ Settings Menu (top-right) -->
     <div class="settings-wrapper">
       <button id="settings-toggle">⚙️</button>
-      <div id="settings-dropdown" class="dropdown">
+      <div id="settings-dropdown" class="dropdown" style="display:none;">
         <a href="{{ url_for('index') }}">Home</a>
         <a href="{{ url_for('all_expenses') }}">All Expenses</a>
         <form action="{{ url_for('logout') }}" method="GET">
           <button type="submit">Logout</button>
+        </form>
+
+        <!-- Set Wallpaper (Default and Given) -->
+        <form method="POST" action="{{ url_for('set_wallpaper') }}">
+          <input type="hidden" name="type" value="theme">
+          <button type="submit" name="theme_name" value="desert-theme">Desert Theme (default)</button>
+          <button type="submit" name="theme-name" value="dark-theme">Dark Theme</button>
+        </form>
+
+        <!-- Set Wallpaper (Custom) -->
+        <form method="POST" action="{{ url_for('set_wallpaper') }}" enctype="multipart/form-data">
+          <input type="hidden" name="type" value="upload">
+          <label>
+            Upload Wallpaper
+            <input type="file" name="wallpaper_file" accept="image/png,image/jpeg">
+          </label>
+          <button type="submit">🔼 Upload Theme</button>
+        </form>
+
+        <!-- Set Wallpaper (Reset To Default) -->
+        <form method="POST" action="{{ url_for('set_wallpaper') }}">
+          <input type="hidden" name="type" value="reset">
+          <button type="submit">Reset Theme to Default</button>
         </form>
       </div>
     </div>
