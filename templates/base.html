@@ -5,21 +5,17 @@
   <title>{% block title %}Expense Tracker{% endblock %}</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-<body 
->
-  <div class="page-wrapper">
-
-    <!-- ⚙️ Settings Menu (top-right) -->
-    <div class="settings-wrapper">
-      <button id="settings-toggle"></button>
-      <div id="settings-dropdown" class="dropdown" style="display:none;">
-        <a href="{{ url_for('index') }}">Home</a>
-        <a href="{{ url_for('all_expenses') }}">All Expenses</a>
-        <form action="{{ url_for('logout') }}" method="GET">
-          <button type="submit">Logout</button>
-        </form>
-      </div>
+<body>
+  
+  <!-- ⚙️ Settings Menu (top-right) -->
+  <div class="settings-wrapper">
+    <button id="settings-toggle">🌞</button>
+    <div id="settings-dropdown" class="dropdown">
+      <a href="/logout">Logout</a>
     </div>
+  </div>
+
+  <div class="page-wrapper">
 
     <main class="main-content">
       {% block content %}{% endblock %}

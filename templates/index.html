@@ -55,29 +55,7 @@
           <div class="form-buttons">
             <button type="submit" class="form-button">Add Expense</button>
           </div>
-        </form>
-<div class="expense-table">
-  {% if entries %}
-    <!-- Expense Table -->
-    <table>
-      <tr>
-        <th>Date</th><th>Type</th><th>Description</th><th>Amount</th><th>Note</th>
-      </tr>
-        <tbody>
-          {% for entry in entries %}
-          <tr>
-            <td>{{ entry.date.strftime("%m/%d/%Y") }}</td>
-            <td>{{ entry.expense_type }}</td>
-            <td>{{ entry.description }}</td>
-            <td>{{ "%.2f" | format(entry.amount) }}</td>
-            <td>{{ entry.note }}</td>
-          </tr>
-          {% endfor %}
-      </tbody>
-    </table>
-  {% else %}
-    <p>No expenses recorded yet. Add one to get started!</p>
-  {% endif %}
-</div>
+          
+        </form>      
 
 </html>

@@ -133,25 +133,6 @@ def index():
             
         return render_template("index.html", username=username, entries=expenses)
 
-# ------ Sheet View (All Expenses) ------
-@app.route("/all_expenses")
-def all_expenses():
-    if "user_id" not in session:
-        flash("Session expired. Please log in.")
-        return redirect(url_for("login"))
-    
-    page = request.args.get("page", 1, type=int)
-    expenses = (
-        Expense.query
-        .filter_by(user_id=session["user_id"])
-        .order_by(Expense.date.desc())
-        .paginate(page=page, per_page=20)
-    )
-
-
-    return render_template("all_expenses.html", username=session["username"], entries=expenses)
-
-
 # -------- Download Route ------------
 @app.route("/download")
 def download():
