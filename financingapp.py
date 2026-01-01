@@ -59,7 +59,7 @@ def register():
 
         return redirect(url_for("login"))
 
-    return render_template("register.html", theme=session.get("theme","desert-theme"))
+    return render_template("register.html")
 
 def get_user_filepath(username):
     if "username" not in session:
@@ -67,8 +67,7 @@ def get_user_filepath(username):
         return redirect(url_for("login"))
     return os.path.join(app.root_path, f"{username}_expenses.xlsx")
 
-
-# 🔐 Login Route
+# ------ Login Route -------
 @app.route("/login", methods=["GET", "POST"]) 
 def login(): 
     if request.method == "POST": 
@@ -85,9 +84,9 @@ def login():
         flash("Invalid username or PIN.")
         return redirect(url_for("login"))
 
-    return render_template("login.html", theme=session.get("theme","desert-theme"))
+    return render_template("login.html")
 
-# 🧾 Tracker Route
+# ------ Tracker Route ------
 @app.route("/", methods=["GET", "POST"]) 
 def index(): 
     if "user_id" not in session: 
@@ -132,80 +131,9 @@ def index():
             .all()
         )
             
-        return render_template("index.html", username=username, entries=expenses, theme=session.get("theme","desert-theme"))
+        return render_template("index.html", username=username, entries=expenses)
 
-# --- route to receive theme change / uploads ---
-@app.route('/set_wallpaper', methods=['POST'])
-def set_wallpaper():
-    user = get_current_user()
-    if not user:
-        flash("You must be logged in to change wallpaper", "error")
-        return redirect(url_for('index'))
-
-    action_type = request.form.get('type')
-    # 1) built-in theme selection
-    if action_type == 'theme':
-        theme_name = request.form.get('theme_name')
-        # store theme class separately (so fonts/colors remain controlled)
-        # optionally: user.theme_name column; if not present, set user.theme = theme_name
-        user.theme_name = theme_name  # create this column if you don't have it
-        # if user had a custom wallpaper file, leave it (or clear it depending on desired behavior)
-        db.session.commit()
-        flash("Theme changed", "success")
-        return redirect(url_for('index'))
-    
-    # 2) reset to defaults
-    if action_type == 'reset':
-        # clear custom wallpaper and reset theme to desert
-        user.theme_name = 'desert-theme'
-        # if you stored path in user.wallpaper_path, clear it
-        if hasattr(user, 'wallpaper_path'):
-            user.wallpaper_path = None
-        db.session.commit()
-        flash("Reset to default wallpaper", "success")
-        return redirect(url_for('index'))
-
-    # 3) upload a new custom wallpaper
-    if action_type == 'upload':
-        if 'wallpaper_file' not in request.files:
-            flash('No file part', 'error')
-            return redirect(url_for('index'))
-        file = request.files['wallpaper_file']
-        if file.filename == '':
-            flash('No selected file', 'error')
-            return redirect(url_for('index'))
-        if file and allowed_file(file.filename):
-            # optional: enforce size (simple check)
-            file.seek(0, os.SEEK_END)
-            filesize = file.tell()
-            file.seek(0)
-            if filesize > MAX_UPLOAD_SIZE:
-                flash("File too large (max 4MB)", "error")
-                return redirect(url_for('index'))
-
-            filename = secure_filename(file.filename)
-            # create per-user upload folder inside static/uploads/<username>/
-            upload_folder = os.path.join(current_app.static_folder, 'uploads', user.username)
-            Path(upload_folder).mkdir(parents=True, exist_ok=True)
-            save_path = os.path.join(upload_folder, filename)
-            file.save(save_path)
-
-            # store relative path to the static folder (so url_for('static', filename=...) works)
-            rel_path = os.path.join('uploads', user.username, filename)
-            user.wallpaper_path = rel_path  # create this column if you don't have it
-            db.session.commit()
-
-            flash("Wallpaper uploaded", "success")
-            return redirect(url_for('index'))
-        else:
-            flash("Invalid file type. Allowed: png, jpg, jpeg", "error")
-            return redirect(url_for('index'))
-
-    # fallback
-    flash("Unknown action", "error")
-    return redirect(url_for('index'))
-
-# Sheet View (All Expenses)
+# ------ Sheet View (All Expenses) ------
 @app.route("/all_expenses")
 def all_expenses():
     if "user_id" not in session:
@@ -224,7 +152,7 @@ def all_expenses():
     return render_template("all_expenses.html", username=session["username"], entries=expenses)
 
 
-#📊 Download Route
+# -------- Download Route ------------
 @app.route("/download")
 def download():
     if "user_id" not in session:
@@ -233,7 +161,7 @@ def download():
 
     username = session["username"]
 
-    # 1. Query from DB
+    # Query from DB
     expenses = (
         Expense.query
         .filter_by(user_id=session["user_id"])
@@ -241,12 +169,12 @@ def download():
         .all()
     )
 
-    # 2. Load template (with formulas in Summary sheet)
+    # Load template (with formulas in Summary sheet)
     template_path = os.path.join(app.root_path, "expenses-template.xlsx")
     wb = openpyxl.load_workbook(template_path)
     sheet = wb["Expenses"]
 
-    # 3. Fill the Expenses sheet (starting at row 5)
+    # Fill the Expenses sheet (starting at row 5)
     start_row = 5
     for i, expense in enumerate(expenses, start=start_row):
         sheet.cell(row=i, column=1, value=expense.date.strftime("%m/%d/%Y"))
@@ -255,24 +183,26 @@ def download():
         sheet.cell(row=i, column=4, value=expense.amount)
         sheet.cell(row=i, column=5, value=expense.note)
 
-    # 4. Save to temp file
+    # Save to temp file
     filepath = os.path.join(app.root_path, f"{username}_expenses.xlsx")
     wb.save(filepath)
 
-    # 5. Send file back to user
+    # Send file back to user
     return send_file(filepath, as_attachment=True, download_name=f"{username}_expenses.xlsx")
 
-# 🗑️ Delete Account Route
+# -------- Delete Account Route ----------
 @app.route("/delete_account", methods=["POST"])
 def delete_account():
     if "user_id" not in session:
         return redirect(url_for("login"))
 
+    # Remove user profile
     user = User.query.get(session["user_id"])
     if user:
         db.session.delete(user)
         db.session.commit()
 
+    # Remove user save file
     user_file = get_user_filepath(session["username"])
     if os.path.exists(user_file):
         os.remove(user_file)
@@ -281,33 +211,7 @@ def delete_account():
     flash("Account deleted. You may now re-register.")
     return redirect(url_for("register"))
 
-# Refresh Template Route
-@app.route("/refresh_workbook", methods=["POST"])
-def refresh_workbook():
-    if "username" not in session:
-        return redirect(url_for("login"))
-
-    filepath = get_user_filepath(session["username"])
-    template_path = os.path.join(app.root_path, "expenses-template.xlsx")
-
-    if os.path.exists(template_path):
-        shutil.copy(template_path, filepath)
-        flash("Workbook refreshed with the latest template.")
-    else:
-        flash("Template file is missing. Please contact support.")
-
-    return redirect(url_for("index"))
-
-# 🎨 Theme Route
-@app.route("/set_theme/<theme>")
-def set_theme(theme):
-    # Save the selected theme in session
-    session["theme"] = theme
-
-    # Redirect back to the previous page if possible, otherwise home
-    return redirect(request.referrer or url_for("index"))
-
-#🚪 Logout
+# ---------- Logout --------------
 @app.route("/logout") 
 def logout(): 
     session.clear() 

@@ -8,3 +8,63 @@ Found my issue with the .env file (it had no actual name)
 
 09/12:
 Change theme, make an option to change theme
+
+12/28:
+Stop process on updating theme
+Redo layout
+Work on style.css in centering form and such
+
+(index.html) 
+<!-- Menu Dropdown
+</div>
+    </main>
+  </div>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const toggle = document.getElementById("settings-toggle");
+        const dropdown = document.getElementById("settings-dropdown");
+        toggle.addEventListener("click", () => {
+          dropdown.classList.toggle("hidden");
+        });
+      });
+    </script>
+  
+    <div class="settings-wrapper">
+      <button id="settings-toggle">🌞</button>
+      <div class="dropdown hidden" id="dropdown-menu">
+          <a href="{{ url_for('download') }}">🌵 Download Workbook</a>
+          <form action="{{ url_for('refresh_workbook') }}" method="POST">
+              <button type="submit">🏜️ Refresh Template</button>
+          </form>
+          <a href="{{ url_for('all_expenses')}}">🌊 View All Expenses (Web)</a>
+          <form action="{{ url_for('delete_account') }}" method="POST">
+              <button type="submit" onclick="return confirm('Delete your account and workbook?')">🐫 Delete Account</button>
+          </form>
+          <div class="theme-menu">
+            <span class="menu-title">Set Theme ▸</span>
+             <div class="theme-options">
+                <a href="{{ url_for('set_theme', theme='desert-theme') }}">Desert</a>
+                <a href="{{ url_for('set_theme', theme='dark-theme') }}">Dark</a>
+                <a href="{{ url_for('set_theme', theme='forest-theme') }}">Forest</a>
+             </div>
+          </div>
+          <a href="{{ url_for('logout') }}">🚪 Logout</a>
+      </div>
+    </div>
+  </body>
+      <script>
+        const toggleBtn = document.getElementById("settings-toggle");
+        const dropdown = document.getElementById("dropdown-menu");
+
+        toggleBtn.addEventListener("click", () => {
+          dropdown.classList.toggle("show"); // toggles visibility
+        });
+
+        // Optional: close dropdown if clicking outside
+        document.addEventListener("click", (e) => {
+          if (!dropdown.contains(e.target) && !toggleBtn.contains(e.target)) {
+            dropdown.classList.remove("show");
+          }
+        });
+      </script>
+    -->
