@@ -131,7 +131,7 @@ def index():
             .all()
         )
             
-        return render_template("index.html", username=username, entries=expenses)
+    return render_template("index.html", username=username, entries=expenses)
 
 # -------- Download Route ------------
 @app.route("/download")

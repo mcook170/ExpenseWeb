@@ -3,22 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <title>{% block title %}Expense Tracker{% endblock %}</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
+  </head>
 <body>
-  
-  <!-- ⚙️ Settings Menu (top-right) -->
-  <div class="settings-wrapper">
-    <button id="settings-toggle">🌞</button>
-    <div id="settings-dropdown" class="dropdown">
-      <a href="/logout">Logout</a>
-    </div>
-  </div>
 
   <div class="page-wrapper">
 
     <main class="main-content">
       {% block content %}{% endblock %}
-    </main>
+    </main>    
 
     <footer class="footer"></footer>
